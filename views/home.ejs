@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Room Reservation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2; /* Fallback color */
+            color: #333; /* Text color */
+            background-image: url('file:///C:/Users/mouat/Desktop/room1.jpg'); /* Update with your preferred background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 50px;
+            margin: 0 auto;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(50px);
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            padding-bottom: 30px;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #007bff; /* Blue color */
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #666; /* Gray color */
+        }
+
+        .action-btns a {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007bff; /* Blue color */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            margin: 0 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-btns a:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-calendar-alt"></i> Meeting Room Reservation</h1>
+            <p>Welcome to our platform for easy and efficient meeting room reservations.</p>
+        </div>
+        <div class="action-btns">
+            <a href="/auth/login"><i class="fas fa-sign-in-alt icon"></i>Login</a>
+            <a href="/auth/register"><i class="fas fa-user-plus icon"></i>Register</a>
+        </div>
+    </div>
+</body>
+</html>

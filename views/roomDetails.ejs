@@ -1,0 +1,107 @@
+<%- include('components/header.ejs') %>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Room Number: <span class="text-secondary"><%= room.nom %></span></h3>
+            <h3>Capacity: <span class="text-secondary"><%= room.capacity %></span></h3>
+            <button type="button" class="btn btn-primary"><a href="/reserve/room/<%= room.id %>" class="text-white">Reserve</a></button>
+        </div>
+        <div class="col-md-6">
+            <h3>Reservation Details:</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Start Time</th>
+                        <th scope="col">End Time</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (dr of detailsReservation) { %>
+                        <tr>
+                            <td><%= dr.day %>/<%= dr.month %>/<%= dr.year %></td>
+                            <td><%= dr.startHour %>:<%= dr.startMinute < 10 ? '0' + dr.startMinute : dr.startMinute %></td>
+                            <td><%= dr.endHour %>:<%= dr.endMinute < 10 ? '0' + dr.endMinute : dr.endMinute %></td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary"><a href="/room/details/<%= room.id %>" class="text-white">Details</a></button>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h3>Available Room Time:</h3>
+            <div id="hourOfDay">
+                <!-- Available room time will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('components/footer.ejs') %>
+
+<script>
+    const date = new Date();
+    const currentDay = date.getDate();
+    const currentMonth = date.getMonth();
+    const currentYear = date.getFullYear();
+    const currentHour = date.getHours();
+    const currentMinute = date.getMinutes();
+    const hourOfDayEle = document.querySelector('#hourOfDay');
+    let reserveRoom = <%- JSON.stringify(detailsReservation) %>;
+
+    function getWeekdaysOfMonth(year, month) {
+        const weekdays = [];
+        const date = new Date(year, month, 1);
+
+        while (date.getMonth() === month) {
+            const dayOfWeek = date.getDay();
+            if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                weekdays.push({
+                    date: date.getDate(),
+                    day: dayOfWeek
+                });
+            }
+            date.setDate(date.getDate() + 1);
+        }
+        return weekdays;
+    }
+
+    for (let i = 0; i < 12; i++) {
+        if (i == currentMonth) {
+            const weekdaysOfMonth = getWeekdaysOfMonth(currentYear, i);
+            weekdaysOfMonth.forEach(day => {
+                if (day.date >= currentDay) {
+                    const h5 = document.createElement('h5');
+                    const dayOfWeekEle = document.createElement('div');
+                    const hourOfDayContent = document.createElement('div');
+                    const dayContent = document.createElement('div');
+                    dayOfWeekEle.classList.add('dayOfWeek');
+                    hourOfDayContent.classList.add('hourOfDayContent');
+                    dayContent.classList.add('dayContent');
+                    h5.textContent = `${day.date}/${currentMonth}/${currentYear}`;
+                    dayOfWeekEle.appendChild(h5);
+                    for (let hour = 8; hour < 17; hour++) {
+                        let findHour = reserveRoom.find(item => {
+                            return item.startHour == hour && item.day == day.date;
+                        });
+                        if (!findHour) {
+                            const h6 = document.createElement('h6');
+                            h6.textContent = `${hour}->${hour + 1}`;
+                            hourOfDayContent.appendChild(h6);
+                        }
+                    }
+                    dayContent.appendChild(dayOfWeekEle);
+                    dayContent.appendChild(hourOfDayContent);
+                    hourOfDayEle.appendChild(dayContent);
+                }
+            });
+            break;
+        }
+    }
+</script>
